@@ -1,9 +1,18 @@
 package com.assignment.spring.weather;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Data
+@Builder
 public class WeatherDTO {
-    public Integer id;
-    public String city;
-    public String country;
-    public Double temperature;
+    private Integer id;
+    private String city;
+    private String country;
+    private Double temperature;
 
 }

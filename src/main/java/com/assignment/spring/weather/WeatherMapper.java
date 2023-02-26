@@ -1,22 +1,25 @@
 package com.assignment.spring.weather;
 
+import com.assignment.spring.weather.WeatherDTO.WeatherDTOBuilder;
+import org.springframework.stereotype.Service;
+
+@Service
 public class WeatherMapper {
 
-    public static WeatherDTO getDTOFromEntity(WeatherEntity weatherEntity) {
-        WeatherDTO dto = new WeatherDTO();
-        dto.id = weatherEntity.getId();
-        dto.city = weatherEntity.getCity();
-        dto.country = weatherEntity.getCountry();
-        dto.temperature = weatherEntity.getTemperature();
-        return dto;
+    public WeatherDTO getDTOFromEntity(WeatherEntity weatherEntity) {
+        return new WeatherDTOBuilder()
+                .id(weatherEntity.getId())
+                .city(weatherEntity.getCity())
+                .country(weatherEntity.getCountry())
+                .temperature(weatherEntity.getTemperature()).build();
     }
 
-    public static WeatherEntity getEntityFromDTO(WeatherDTO dto) {
+    public WeatherEntity getEntityFromDTO(WeatherDTO dto) {
         WeatherEntity entity = new WeatherEntity();
-        entity.setId(dto.id);
-        entity.setCity(dto.city);
-        entity.setCountry(dto.country);
-        entity.setTemperature(dto.temperature);
+        entity.setId(dto.getId());
+        entity.setCity(dto.getCity());
+        entity.setCountry(dto.getCountry());
+        entity.setTemperature(dto.getTemperature());
         return entity;
     }
 }
