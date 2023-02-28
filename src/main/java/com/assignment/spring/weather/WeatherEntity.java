@@ -3,13 +3,15 @@ package com.assignment.spring.weather;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "weather")
-@Data
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Setter
+@Getter
 public class WeatherEntity {
 
     @Id
@@ -18,4 +20,5 @@ public class WeatherEntity {
     private String city;
     private String country;
     private Double temperature;
+    private LocalDateTime updatedOn;
 }

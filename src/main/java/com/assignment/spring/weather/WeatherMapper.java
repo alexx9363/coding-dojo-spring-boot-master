@@ -15,11 +15,10 @@ public class WeatherMapper {
     }
 
     public WeatherEntity getEntityFromDTO(WeatherDTO dto) {
-        WeatherEntity entity = new WeatherEntity();
-        entity.setId(dto.getId());
-        entity.setCity(dto.getCity());
-        entity.setCountry(dto.getCountry());
-        entity.setTemperature(dto.getTemperature());
-        return entity;
+        return WeatherEntity.builder()
+                .id(dto.getId())
+                .city(dto.getCity())
+                .country(dto.getCountry())
+                .temperature(dto.getTemperature()).build();
     }
 }

@@ -1,26 +1,31 @@
 package com.assignment.spring.weather;
 
-import com.assignment.spring.api.OpenWeatherMapRest;
-import com.assignment.spring.api.WeatherResponse;
+import com.assignment.spring.api.OpenWeatherMapService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class WeatherService {
-
     @Autowired
-    OpenWeatherMapRest openWeatherMapRest;
-
+    private OpenWeatherMapService openWeatherMapService;
     @Autowired
-    WeatherRepository weatherRepository;
+    private WeatherRepository weatherRepository;
+    @Autowired
+    private TimeProvider timeProvider;
+
+    private static final int WEATHER_MINUTES_IS_UP_TO_DATE = 10;
 
     public WeatherEntity getWeather(String city) {
-        WeatherResponse response = openWeatherMapRest.getWeather(city);
+        return weatherRepository.findByCityIgnoreCase(city).filter(this::isUpToDate).orElseGet(() -> updateWeather(city));
+    }
 
-        WeatherEntity entity = weatherRepository.findByCityIgnoreCase(city).orElseGet(WeatherEntity::new);
-        entity.setCity(response.getName());
-        entity.setCountry(response.getSys().getCountry());
-        entity.setTemperature(response.getMain().getTemp());
-        return weatherRepository.save(entity);
+    private boolean isUpToDate(WeatherEntity weather) {
+        return timeProvider.getNow().isBefore(weather.getUpdatedOn().plusMinutes(WEATHER_MINUTES_IS_UP_TO_DATE));
+    }
+
+    private WeatherEntity updateWeather(String city) {
+        return weatherRepository.save(openWeatherMapService.getWeatherFromOpenWeatherMap(city));
     }
 }

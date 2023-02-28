@@ -1,6 +1,7 @@
 package com.assignment.spring.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ public class WeatherController {
     private WeatherMapper weatherMapper;
 
     @GetMapping
-    public WeatherDTO getWeather(@RequestParam String city) {
-        return weatherMapper.getDTOFromEntity(weatherService.getWeather(city));
+    public ResponseEntity<WeatherDTO> getWeather(@RequestParam String city) {
+        return ResponseEntity.ok(weatherMapper.getDTOFromEntity(weatherService.getWeather(city)));
     }
 }
