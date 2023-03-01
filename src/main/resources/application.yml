@@ -15,8 +15,12 @@ spring:
           lob:
             non_contextual_creation: 'true'
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 logging:
   level:
     org:
       springframework: ERROR
+weather:
+  api:
+    url: 'http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={appid}'
+    appid: '0e9796030b4b8a3c9e6e146047762c0a'
