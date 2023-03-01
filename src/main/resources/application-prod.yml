@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testDb
+    username:
+    password:
+weather:
+  api:
+    appid: ''
+  update:
+    interval: 10

@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -34,11 +35,15 @@ public class WeatherServiceTest {
     private TimeProvider timeProvider;
     @InjectMocks
     private WeatherService weatherService;
+
     private static final LocalDateTime NOW = LocalDateTime.now();
+
+    private final int weatherUpdateInterval = 10;
 
     @Before
     public void setUp() {
         Mockito.when(timeProvider.getNow()).thenReturn(NOW);
+        ReflectionTestUtils.setField(weatherService, "weatherUpdateInterval", weatherUpdateInterval);
     }
 
     @Test
@@ -57,7 +62,7 @@ public class WeatherServiceTest {
     public void getWeatherTest_isPresentAnd_NOT_UpToDate() {
         String city = "Bucharest";
         WeatherEntity entityPresentInRepo = WeatherEntity.builder().id(1).temperature(280.16d).country("RO").city(city)
-                .updatedOn(NOW.minusMinutes(15)).build();
+                .updatedOn(NOW.minusMinutes(weatherUpdateInterval+1)).build();
         Mockito.when(weatherRepository.findByCityIgnoreCase(city)).thenReturn(Optional.of(entityPresentInRepo));
         WeatherEntity expected = WeatherEntity.builder().id(1).temperature(280.16d).country("RO").city(city)
                 .updatedOn(NOW).build();

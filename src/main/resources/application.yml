@@ -1,9 +1,6 @@
 spring:
   datasource:
     initialization-mode: always
-    username: postgres
-    url: jdbc:postgresql://localhost:5432/testDb
-    password: password
   main:
     banner-mode: 'off'
   jpa:
@@ -16,6 +13,8 @@ spring:
             non_contextual_creation: 'true'
     hibernate:
       ddl-auto: update
+  profiles:
+    active: 'prod'
 logging:
   level:
     org:
@@ -23,4 +22,3 @@ logging:
 weather:
   api:
     url: 'http://api.openweathermap.org/data/2.5/weather?q={city}&APPID={appid}'
-    appid: '0e9796030b4b8a3c9e6e146047762c0a'
